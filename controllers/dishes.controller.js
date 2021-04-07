@@ -20,13 +20,10 @@ exports.createDishes = async (req, res) => {
 	}
 };
 exports.getAllDishes = async (req, res) => {
-	const allDishes=[];
+	let allDishes=[];
 	const dishes = await dishesModel.find()
 	.then(data => {
-            	//res.json({ok:true,data});
-            	for(let i=0;i<data.length;i++){
-            		allDishes.push(data[i]);
-            	}
+            	allDishes=data;
     	}).catch(err => {
             res.status(500).send({
                 message: err.message || "Some error occurred while getting dishes."
@@ -49,37 +46,85 @@ exports.getAllDishes = async (req, res) => {
 	res.json({ok:true,allDishes});
 };
 exports.getDishesByName = async (req, res) => {
+	let allDishes=[];
 	const {name}= req.params;
 	const dishes = await dishesModel.find({name:name})
 	.then(data => {
-            	res.json({ok:true,data});
+            	allDishes=data;
     	}).catch(err => {
             res.status(500).send({
                 message: err.message || "Some error occurred while getting dishes."
         });
     });
+	const reviews = await dishesReview.find()
+	.then(data => {
+        for(let i=0;i<allDishes.length;i++){
+        	for(let j=0;j<data.length;j++){
+          		if(allDishes[i].name === data[j].name){
+            		allDishes[i].review.push(data[j]);
+          		}
+       		}
+       	}
+	}).catch(err => {
+        res.status(500).send({
+            message: err.message || "Some error occurred while getting reviews."
+    	});
+	});
+	res.json({ok:true,allDishes});
 };
 exports.getDishesByCategory = async (req, res) => {
+	let allDishes=[];
 	const {category}= req.params;
 	const dishes = await dishesModel.find({category:category})
 	.then(data => {
-            	res.json({ok:true,data});
+            	allDishes=data;
     	}).catch(err => {
             res.status(500).send({
                 message: err.message || "Some error occurred while getting dishes."
         });
     });
+    const reviews = await dishesReview.find()
+	.then(data => {
+        for(let i=0;i<allDishes.length;i++){
+        	for(let j=0;j<data.length;j++){
+          		if(allDishes[i].name === data[j].name){
+            		allDishes[i].review.push(data[j]);
+          		}
+       		}
+       	}
+	}).catch(err => {
+        res.status(500).send({
+            message: err.message || "Some error occurred while getting reviews."
+    	});
+	});
+	res.json({ok:true,allDishes});
 };
 exports.getDishesByType = async (req, res) => {
+	let allDishes=[];
 	const {type}= req.params;
 	const dishes = await dishesModel.find({type:type})
 	.then(data => {
-            	res.json({ok:true,data});
+            	allDishes=data;
     	}).catch(err => {
             res.status(500).send({
                 message: err.message || "Some error occurred while getting dishes."
         });
     });
+    const reviews = await dishesReview.find()
+	.then(data => {
+        for(let i=0;i<allDishes.length;i++){
+        	for(let j=0;j<data.length;j++){
+          		if(allDishes[i].name === data[j].name){
+            		allDishes[i].review.push(data[j]);
+          		}
+       		}
+       	}
+	}).catch(err => {
+        res.status(500).send({
+            message: err.message || "Some error occurred while getting reviews."
+    	});
+	});
+	res.json({ok:true,allDishes});
 };
 exports.updateDishes = async (req, res) => {
 	if(req.body.name && req.body.category && req.body.type){
