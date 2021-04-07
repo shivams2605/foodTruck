@@ -94,7 +94,7 @@ exports.updateDishes = async (req, res) => {
 	    });
 	}
 	else{	
-		res.send({message:"Name and age is mandatory"})
+		res.send({message:"Name, category and type are mandatory fields"})
 	}
 };
 exports.deleteDishes = async (req, res) => {
@@ -124,7 +124,7 @@ exports.createReview = async (req, res) => {
 	    });
 	}
 	else{	
-		res.send({message:"Name, category and type are mandatory fields"})
+		res.send({message:"Name and Review are mandatory fields"})
 	}
 };
 
