@@ -3,7 +3,7 @@ const router = express.Router();
 const dishesCtrl = require('../controllers/dishes.controller.js');
 
 router.get('/',(_,res)=>{
-	res.send('Welcome to food court Healthy Chtakara  !!!');
+	res.send('Welcome to food court Healthy Chtakara..!!!');
 });
 
 router.post('/addDishes',dishesCtrl.createDishes);
